@@ -1,9 +1,8 @@
 {
   "name": "card3-form",
-  "private": true,
   "version": "0.0.1",
   "description": "Card 3 form component.",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "module": "dist/esm/index.js",
   "main": "dist/index.js",
   "unpkg": "dist/ionic.js",
