@@ -23,6 +23,14 @@
   "dependencies": {
     "@certitrade/card3-model": "^3.0.11",
     "@stencil/core": "~0.18.1",
+    "isoly": "0.0.7",
     "smoothly": "0.0.39"
+  },
+  "devDependencies": {
+    "@types/jest": "23.3.14",
+    "@types/puppeteer": "1.12.4",
+    "jest": "23.6.0",
+    "jest-cli": "23.6.0",
+    "puppeteer": "1.11.0"
   }
 }
