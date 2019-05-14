@@ -1,8 +1,8 @@
 version: 2.1
 default: &default
-    docker:
-      - image: circleci/node:10.15-browsers
-    working_directory: ~/repo
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:10.15-browsers
 commands:
   prepare:
     description: "Prepare working directory"
@@ -19,7 +19,7 @@ commands:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 jobs:
-  test:
+  build:
     <<: *default
     steps:
       - prepare
@@ -27,14 +27,20 @@ jobs:
           name: Build
           command: npm run build
       - run:
-          name: Run tests
-          command: npm run test
+          name: Test
+          command: npm run test.unit
   deploy:
     <<: *default
     steps:
       - prepare
       - run:
-          name: Bump version
+          name: Build
+          command: npm run build
+      - run:
+          name: Test
+          command: npm run test.unit
+      - run:
+          name: Bump Version
           command: |
             git config user.email circleci@circleci
             git config user.name CircleCI
@@ -45,29 +51,18 @@ jobs:
       - run:
           name: Publish
           command: |
-            git clone $CIRCLE_REPOSITORY_URL out
-            cd out
-            git checkout gh-pages || git checkout --orphan gh-pages
-            git rm -rf .
-            cd ..
-            npm run build
-            cp -a www/. out/.
-            mkdir -p out/.circleci && cp -a .circleci/. out/.circleci/.
-            cd out
-            echo "checkout.certitrade.se" > CNAME
-            git config user.name "$USER_NAME"
-            git config user.email "$USER_EMAIL"
-            git add -A
-            git commit -m "Automated deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
-            git push origin gh-pages
+            git status
+            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+            npm publish --access public
 workflows:
   version: 2.1
   build-flow:
     jobs:
-      - test
+      - build:
+          filters:
+            branches:
+              ignore: master
       - deploy:
-          requires:
-            - test
           filters:
             branches:
               only: master
