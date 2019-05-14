@@ -1,13 +1,12 @@
-import { Component, Event, EventEmitter, Method as Method, Listen, Prop } from '@stencil/core'
+import { Component, Event, EventEmitter, Method as Method, Listen, Prop } from "@stencil/core"
 import { Trigger } from "smoothly"
 import { Currency } from "isoly"
 import { Payment } from "@certitrade/card3-model"
-import "smoothly"
 
 @Component({
-  tag: 'card3-form',
-  styleUrl: 'style.css',
-  shadow: true
+	tag: "card3-form",
+	styleUrl: "style.css",
+	shadow: true,
 })
 export class Form {
 	frame: HTMLSmoothlyFrameElement
@@ -29,7 +28,7 @@ export class Form {
 			this.state = "processing"
 		}
 	}
-  render() {
+	render() {
 		return <smoothly-frame url={ this.url } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame>
-  }
+	}
 }
