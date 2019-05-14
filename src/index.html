@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
+		<title>Card 3 Form Test</title>
+		<script src="./build/card3-form.js"></script>
+	</head>
+	<body>
+		<form>
+			<card3-form id="card-form" url="http://localhost:7071/web/"></card3-form>
+			<button id="submit" type="button">submit</button>
+		</form>
+		<script>
+			const cardForm = document.getElementById("card-form")
+			const submit = document.getElementById("submit")
+			if (cardForm && submit) {
+				submit.onclick = event => {
+					console.log("submit")
+					cardForm.submit("card", 1337.42, "SEK", "orderno", "reference")
+					event.preventDefault()
+					event.stopPropagation()
+				}
+				cardForm.addEventListener("changed", event => {
+					alert("payed " + event.detail.amount + " " + event.detail.currency)
+				})
+			}
+		</script>
+	</body>
+</html>
