@@ -49,11 +49,28 @@ jobs:
             git push
             git push --tags
       - run:
-          name: Publish
+          name: Publish NPM
           command: |
             git status
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
             npm publish --access public
+      - run:
+          name: Publish GitHub Pages
+          command: |
+            git clone $CIRCLE_REPOSITORY_URL out
+            cd out
+            git checkout gh-pages || git checkout --orphan gh-pages
+            git rm -rf .
+            cd ..
+            npm run build
+            cp -a www/. out/.
+            mkdir -p out/.circleci && cp -a .circleci/. out/.circleci/.
+            cd out
+            git config user.email circleci@circleci
+            git config user.name CircleCI
+            git add -A
+            git commit -m "Automated deployment to GitHub Pages: ${CIRCLE_SHA1} [ci skip]" --allow-empty
+            git push origin gh-pages
 workflows:
   version: 2.1
   build-flow:
