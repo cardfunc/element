@@ -9,11 +9,14 @@ import '@stencil/core';
 
 import 'smoothly';
 import {
-  Currency,
-} from 'isoly';
-import {
   Payment,
 } from '@certitrade/card3-model';
+import {
+  PaymentMethod,
+} from './model';
+import {
+  Currency,
+} from 'isoly';
 import {
   EventEmitter,
 } from '@stencil/core';
@@ -23,7 +26,7 @@ export namespace Components {
 
   interface Card3Form {
     'state': "failed" | "succeeded" | "processing" | "created";
-    'submit': (method: string, amount: number, currency: Currency, order?: string | undefined, reference?: string | undefined, description?: string | undefined) => void;
+    'submit': (method: import("/home/smika/versioned/github/certitrade/card3-form/node_modules/@certitrade/card3-model/dist/Method").Method, amount: number, currency: Currency, order?: string | undefined, reference?: string | undefined, description?: string | undefined) => Promise<Payment>;
     'url': string;
     'value'?: Payment;
   }

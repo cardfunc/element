@@ -14,17 +14,13 @@
 		<script>
 			const cardForm = document.getElementById("card-form")
 			const submit = document.getElementById("submit")
-			if (cardForm && submit) {
+			if (cardForm && submit)
 				submit.onclick = event => {
 					console.log("submit")
-					cardForm.submit("card", 1337.42, "SEK", "orderno", "reference")
+					cardForm.submit("card", 1337.42, "SEK", "orderno", "reference").then(payment => alert("payed " + payment.amount + " " + payment.currency))
 					event.preventDefault()
 					event.stopPropagation()
 				}
-				cardForm.addEventListener("changed", event => {
-					alert("payed " + event.detail.amount + " " + event.detail.currency)
-				})
-			}
 		</script>
 	</body>
 </html>
