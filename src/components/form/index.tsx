@@ -2,7 +2,6 @@ import { Component, Event, EventEmitter, Method as Method, Listen, Prop } from "
 import { Trigger } from "smoothly"
 import { Currency } from "isoly"
 import { Payment } from "@certitrade/card3-model"
-import { PaymentMethod } from "../../model"
 
 @Component({
 	tag: "card3-form",
@@ -27,7 +26,7 @@ export class Form {
 		}
 	}
 	@Method()
-	submit(method: PaymentMethod, amount: number, currency: Currency, order?: string, reference?: string, description?: string): Promise<Payment> {
+	submit(method: "card" | "one-click" |	"init-recurring" | "recurring", amount: number, currency: Currency, order?: string, reference?: string, description?: string): Promise<Payment> {
 		return new Promise(callback => {
 			console.log("frame submit")
 			if (this.frame) {
