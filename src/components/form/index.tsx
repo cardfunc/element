@@ -1,4 +1,5 @@
-import { Component, Event, EventEmitter, Method as Method, Listen, Prop } from "@stencil/core"
+import { Component, Event, EventEmitter, Method as Method, Listen, Prop, State } from "@stencil/core"
+import { Payload, Verifier } from "authly"
 import { Trigger } from "smoothly"
 import { Currency } from "isoly"
 import { Payment } from "@certitrade/card3-model"
@@ -10,11 +11,15 @@ import { Payment } from "@certitrade/card3-model"
 })
 export class Form {
 	frame: HTMLSmoothlyFrameElement
-	@Prop() url: string
+	@Prop() token: string
 	@Prop({ reflectToAttr: true, mutable: true }) state: "failed" | "succeeded" | "processing" | "created" = "created"
 	@Prop({ mutable: true }) value?: Payment
 	@Event() changed: EventEmitter<Payment>
 	private received?: (state: "succeeded" | "failed", payment: Payment) => void
+	@State() payload?: Payload
+	componentWillLoad() {
+		new Verifier("public").verify(this.token).then(payload => this.payload = payload)
+	}
 	@Listen("trigger")
 	async handleTrigger(event: CustomEvent<Trigger>) {
 		console.log("card3-form", event)
@@ -31,12 +36,12 @@ export class Form {
 			console.log("frame submit")
 			if (this.frame) {
 				this.received = (_, payment) => callback(payment)
-				this.frame.send("card", { name: "submit", value: { method, amount, currency, order, reference, description} })
+				this.frame.send("card", { name: "submit", value: { method, amount, currency, order, reference, description, token: this.token } })
 				this.state = "processing"
 			}
 		})
 	}
 	render() {
-		return <smoothly-frame url={ this.url } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame>
+		return this.payload ? <smoothly-frame url={ this.payload.iss + "/card3-web/" } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : []
 	}
 }

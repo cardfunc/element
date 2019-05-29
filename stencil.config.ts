@@ -15,4 +15,7 @@ export const config: Config = {
 	},
 	globalScript: "src/global/app.ts",
 	globalStyle: "src/global/app.css",
+	nodeResolve: {
+		browser: true,
+	},
 }
