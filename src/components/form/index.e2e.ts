@@ -7,7 +7,7 @@ describe("card3-form", () => {
 
 		await page.setContent("<card3-form></card3-form>")
 		const element = await page.find("card3-form")
-		expect(element).toHaveClass("hydrated")
+		expect(element).toBeTruthy()
 	})
 
 	it("renders changes to the name data", async () => {
@@ -15,6 +15,7 @@ describe("card3-form", () => {
 
 		await page.setContent("<card3-form></card3-form>")
 		const component = await page.find("card3-form")
+		expect(component).toBeTruthy()
 		const element = await page.find("card3-form >>> smoothly-frame")
 		expect(element.textContent).toEqual(``)
 	})

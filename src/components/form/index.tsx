@@ -1,4 +1,5 @@
-import { Component, Event, EventEmitter, Method as Method, Listen, Prop, State } from "@stencil/core"
+// tslint:disable-next-line:no-implicit-dependencies
+import { Component, Event, EventEmitter, Method as Method, Listen, Prop, State, h } from "@stencil/core"
 import { Payload, Verifier } from "authly"
 import { Trigger } from "smoothly"
 import { Currency } from "isoly"
