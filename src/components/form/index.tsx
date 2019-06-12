@@ -11,7 +11,7 @@ import { Payment } from "@certitrade/card3-model"
 	shadow: true,
 })
 export class Form {
-	frame: HTMLSmoothlyFrameElement
+	frame: any
 	@Prop() token: string
 	@Prop({ reflectToAttr: true, mutable: true }) state: "failed" | "succeeded" | "processing" | "created" = "created"
 	@Prop({ mutable: true }) value?: Payment
@@ -43,6 +43,6 @@ export class Form {
 		})
 	}
 	render() {
-		return this.payload ? <smoothly-frame url={ this.payload.iss + "/card3-web/" } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : []
+		return this.payload ? <smoothly-frame url={ this.payload.iss + "/card3-web/" } name="card" ref={ (element: HTMLElement) => this.frame = element }></smoothly-frame> : []
 	}
 }
