@@ -4,9 +4,13 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
 		<title>Card 3 Form Test</title>
-		<script src="./build/card3-form.js"></script>
+
+		<script type="module" src="/build/card3-form.esm.js"></script>
+		<script nomodule src="/build/card3-form.js"></script>
+
 	</head>
 	<body>
+
 		<form>
 			<card3-form id="card-form" token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODIiLCJpYXQiOjE1NTkwNjk2NjUzMjYsImF1ZCI6InB1YmxpYyIsInN1YiI6Ilk0a0FnejFQIiwiY2FyZDIiOiJnNFBoSGxiQ3BPd0ZsbTlwX1RSajRxeDlMaDBibUJ6cXB4OUlYdzk3dWliMkctMjBQZjRjMkViUWRlMzVGMEo4Umd6bzg1VUJkOU5Cczd1M2U0OWhaREV3TVRZMExDSnJaWGtpT2lJM01EZzBaRGhqT1RFM1lqbGlaVFExTjJFMk0yRTBZbVJrWXpFMU56Y3pNQ0o5In0.eWNYeeS9JDStmmlrHDy2ny1K_8kAPMPW8zCA5o2Yn8c"></card3-form>
 			<button id="submit" type="button">submit</button>
@@ -17,10 +21,11 @@
 			if (cardForm && submit)
 				submit.onclick = event => {
 					console.log("submit")
-					cardForm.submit("card", 1337.42, "SEK", "orderno", "reference").then(payment => alert("payed " + payment.amount + " " + payment.currency))
+					cardForm.submit("card", 1337.42, "SEK", "orderno", "reference").then(payment => alert("payed " + JSON.stringify(payment)))
 					event.preventDefault()
 					event.stopPropagation()
 				}
 		</script>
+
 	</body>
 </html>
