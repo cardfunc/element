@@ -8,7 +8,7 @@ import { Payment } from "@certitrade/card3-model"
 @Component({
 	tag: "card3-form",
 	styleUrl: "style.css",
-	shadow: true,
+	shadow: false,
 })
 export class Form {
 	frame: any
