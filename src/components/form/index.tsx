@@ -37,12 +37,19 @@ export class Form {
 			console.log("frame submit")
 			if (this.frame) {
 				this.received = (_, payment) => callback(payment)
-				this.frame.send("card", { name: "submit", value: { method, amount, currency, order, reference, description, token: this.token } })
+				this.frame.send("card", { name: "submit", value: { method, amount, currency, order, reference, description, token: this.token, parent: window.location.origin } })
 				this.state = "processing"
 			}
 		})
 	}
 	render() {
-		return this.payload ? <smoothly-frame url={ this.payload.iss + "/card3-web/" } name="card" ref={ (element: HTMLElement) => this.frame = element }></smoothly-frame> : []
+		return [
+			this.payload ? <smoothly-frame url={ this.payload.iss + "/card3-web/" } name="card" ref={ (element: HTMLElement) => this.frame = element }></smoothly-frame> : [],
+			this.payload && this.value && this.value.verify ?
+			<smoothly-dialog closable>
+				<smoothly-frame url={ `${ this.payload.iss }/api/redirect/post?target=${ this.value.verify.location }&PaReq=${ this.value.verify.pareq }` } name="parent"></smoothly-frame>
+			</smoothly-dialog> :
+			[],
+		]
 	}
 }
