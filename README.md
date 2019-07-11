@@ -1,2 +1,2 @@
-# card3-form
-Component embedding card details form.
+# CardFunc Element
+HTML custom element that provides a PCI-compliant form to enter card details.

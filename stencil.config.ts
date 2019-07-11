@@ -1,24 +1,19 @@
-// tslint:disable-next-line:no-implicit-dependencies
 import { Config } from "@stencil/core"
 
 export const config: Config = {
-	namespace: "card3-form",
+	namespace: "cardfunc-element",
 	outputTargets: [
 		{
 			type: "dist",
 			esmLoaderPath: "../loader",
 		},
 		{
-			type: "docs-readme",
-		},
-		{
 			type: "www",
 			serviceWorker: null, // disable service workers
-			baseUrl: "/card3-form",
+			baseUrl: "/element",
 		},
 	],
-	globalScript: "src/global/app.ts",
-	globalStyle: "src/global/app.css",
+	globalStyle: "src/style.css",
 	devServer: {
 		openBrowser: false,
 	},
