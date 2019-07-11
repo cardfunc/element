@@ -1,17 +1,17 @@
 // tslint:disable-next-line:no-implicit-dependencies
 import { Component, Event, EventEmitter, Method as Method, Listen, Prop, State, h } from "@stencil/core"
 import { Payload, Verifier } from "authly"
-import { Trigger } from "smoothly"
+import { Trigger } from "smoothly-model"
 import { Currency } from "isoly"
-import { Payment } from "@certitrade/card3-model"
+import { Payment } from "@cardfunc/model"
 
 @Component({
-	tag: "card3-form",
+	tag: "cardfunc-element",
 	styleUrl: "style.css",
 	shadow: true,
 })
 export class Form {
-	frame: any
+	frame: HTMLSmoothlyFrameElement
 	@Prop() token: string
 	@Prop({ reflectToAttr: true, mutable: true }) state: "failed" | "succeeded" | "processing" | "created" = "created"
 	@Prop({ mutable: true }) value?: Payment
@@ -23,7 +23,7 @@ export class Form {
 	}
 	@Listen("trigger")
 	async handleTrigger(event: CustomEvent<Trigger>) {
-		console.log("card3-form", event)
+		console.log("cardfunc-element", event)
 		this.changed.emit(this.value = event.detail.value)
 		this.state = event.detail.name == "cardPaymentSuccess" ? "succeeded" : "failed"
 		if (this.received) {
@@ -44,7 +44,7 @@ export class Form {
 	}
 	render() {
 		return [
-			this.payload ? <smoothly-frame url={ this.payload.iss + "/card3-web/" } name="card" ref={ (element: HTMLElement) => this.frame = element }></smoothly-frame> : [],
+			this.payload ? <smoothly-frame url={ this.payload.iss + "/web-app/" } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : [],
 			this.payload && this.value && this.value.verify ?
 			<smoothly-dialog closable>
 				<smoothly-frame url={ `${ this.payload.iss }/api/redirect/post?target=${ this.value.verify.location }&PaReq=${ this.value.verify.pareq }` } name="parent"></smoothly-frame>

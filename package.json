@@ -1,15 +1,15 @@
 {
-  "name": "@certitrade/card3-form",
+  "name": "@cardfunc/element",
   "version": "0.0.9",
-  "description": "Card 3 form component.",
+  "description": "HTML custom element providing PCI-compliant card details form.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "es2015": "dist/esm/index.mjs",
   "es2017": "dist/esm/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/types/components.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/stencil-component/stencil-component.js",
+  "unpkg": "dist/cardfunc-element/cardfunc-element.js",
   "files": [
     "dist/",
     "loader/"
@@ -18,21 +18,24 @@
     "build": "stencil build",
     "start": "stencil build --dev --watch --serve --port 4272",
     "test": "stencil test --spec --e2e",
-    "test.watch": "stencil test --spec --e2e --watchAll"
+    "test.watch": "stencil test --spec --e2e --watchAll",
+    "clean": "rm -rf .stencil/ dist/ node_modules/ loader/ www/"
   },
   "dependencies": {
-    "@certitrade/card3-model": "^3.0.12",
-    "authly": "0.0.16",
-    "isoly": "0.0.7",
-    "smoothly": "0.0.41"
+    "@cardfunc/model": "^0.0.14",
+    "authly": "^0.0.16",
+    "isoly": "^0.0.9",
+    "smoothly": "^0.0.44",
+    "smoothly-model": "^0.0.4"
   },
   "devDependencies": {
-    "@stencil/core": "1.0.2",
-    "@types/jest": "24.0.13",
+    "@stencil/core": "^1.1.3",
+    "@types/jest": "24.0.15",
     "@types/puppeteer": "1.12.4",
     "jest": "24.8.0",
     "jest-cli": "24.8.0",
     "puppeteer": "1.17.0"
   },
+  "author": "CardFunc",
   "license": "MIT"
 }
