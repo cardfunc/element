@@ -6,6 +6,7 @@
 		"stencil.config.ts": true,
 		"src/components.d.ts": true,
 		"dist": true,
+		"node_modules": true,
 		"www": true,
 		"loader": true,
 		"README.md": true,
