@@ -1,6 +1,6 @@
 // tslint:disable-next-line:no-implicit-dependencies
 import { Component, Event, EventEmitter, Method, Listen, Prop, State, h } from "@stencil/core"
-import { Payload, Verifier } from "authly"
+import { Payload, Verifier, Token } from "authly"
 import { Trigger } from "smoothly-model"
 import { Authorization } from "@cardfunc/model"
 import { AuthorizationCreatableSafe } from "../model"
@@ -16,7 +16,7 @@ export class Form {
 	@Prop({ reflectToAttr: true, mutable: true }) state: "failed" | "succeeded" | "processing" | "created" = "created"
 	@Prop({ mutable: true }) value?: AuthorizationCreatableSafe
 	@Event() changed: EventEmitter<Authorization>
-	private received?: (state: "succeeded" | "failed", authorization: Authorization) => void
+	private received?: (state: "succeeded" | "failed", authorization: Authorization | Token) => void
 	@State() payload?: Payload
 	componentWillLoad() {
 		new Verifier("public").verify(this.apiKey).then(payload => this.payload = payload)
@@ -32,7 +32,7 @@ export class Form {
 		}
 	}
 	@Method()
-	submit(authorization: AuthorizationCreatableSafe): Promise<Authorization> {
+	submit(authorization: AuthorizationCreatableSafe): Promise<Authorization | Token> {
 		return new Promise(callback => {
 			console.log("frame submit")
 			if (this.frame) {
@@ -45,7 +45,7 @@ export class Form {
 	render() {
 		return [
 			this.payload ? <smoothly-frame url={ this.payload.iss + "/web-app/" } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : [],
-			// TODO: Renable 3D Secure
+			// TODO: Reenable 3D Secure
 			// this.payload && this.value && this.value.verify ?
 			// <smoothly-dialog closable>
 			// 	<smoothly-frame url={ `${ this.payload.iss }/api/redirect/post?target=${ this.value.verify.location }&PaReq=${ this.value.verify.pareq }` } name="parent"></smoothly-frame>

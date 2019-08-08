@@ -22,7 +22,7 @@
     "clean": "rm -rf .stencil/ dist/ node_modules/ loader/ www/"
   },
   "dependencies": {
-    "@cardfunc/model": "^0.0.18",
+    "@cardfunc/model": "^0.0.19",
     "authly": "^0.0.25",
     "isoly": "^0.0.10",
     "smoothly": "^0.0.52",
@@ -34,7 +34,7 @@
     "@types/puppeteer": "1.19.0",
     "jest": "24.8.0",
     "jest-cli": "24.8.0",
-    "puppeteer": "1.17.0",
+    "puppeteer": "1.19.0",
     "tslint": "^5.18.0"
   },
   "author": "CardFunc",
