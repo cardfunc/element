@@ -12,7 +12,7 @@
 	<body>
 
 		<form>
-			<cardfunc-element id="cardfunc-element" token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODIiLCJpYXQiOjE1NTkwNjk2NjUzMjYsImF1ZCI6InB1YmxpYyIsInN1YiI6Ilk0a0FnejFQIiwiY2FyZDIiOiJnNFBoSGxiQ3BPd0ZsbTlwX1RSajRxeDlMaDBibUJ6cXB4OUlYdzk3dWliMkctMjBQZjRjMkViUWRlMzVGMEo4Umd6bzg1VUJkOU5Cczd1M2U0OWhaREV3TVRZMExDSnJaWGtpT2lJM01EZzBaRGhqT1RFM1lqbGlaVFExTjJFMk0yRTBZbVJrWXpFMU56Y3pNQ0o5In0.eWNYeeS9JDStmmlrHDy2ny1K_8kAPMPW8zCA5o2Yn8c"></cardfunc-element>
+			<cardfunc-element id="cardfunc-element" api-key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODIiLCJpYXQiOjE1NjUyMDA4ODgzNjIsImF1ZCI6InB1YmxpYyIsInN1YiI6InBhcjkiLCJuYW1lIjoidGVzdCIsImRlc2NyaXB0b3IiOiJ0ZXN0IHRyYW5zYWN0aW9uIiwiY291bnRyeSI6IlNFIiwiYWNxdWlyZXIiOnsicHJvdG9jb2wiOiJjbGVhcmhhdXMiLCJ1cmwiOiJodHRwczovL2dhdGV3YXkudGVzdC5jbGVhcmhhdXMuY29tIiwia2V5IjoiMzZlNzRhNjktN2ZlZS00YTM3LWJjZDktNmExNDIyMDI4ZmYzIn0sIm1jYyI6IjEyMzQiLCJiaW4iOnsibWFzdGVyY2FyZCI6IjEzNDY3OCIsInZpc2EiOiIxMjM0In19.1LKzD4u2RORIKcWt3kiVe367NR-13VXoGVi0o71TSKw"></cardfunc-element>
 			<button id="submit" type="button">submit</button>
 		</form>
 		<script>
@@ -21,7 +21,7 @@
 			if (cardForm && submit)
 				submit.onclick = event => {
 					console.log("submit")
-					cardForm.submit("card", 1337.42, "SEK", "orderno", "reference").then(payment => alert("payed " + JSON.stringify(payment)))
+					cardForm.submit({ amount: 1337.42, currency: "SEK",  number: "orderno", discriptor: "reference" }).then(payment => alert("payed " + JSON.stringify(payment)))
 					event.preventDefault()
 					event.stopPropagation()
 				}

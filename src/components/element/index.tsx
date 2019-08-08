@@ -1,9 +1,9 @@
 // tslint:disable-next-line:no-implicit-dependencies
-import { Component, Event, EventEmitter, Method as Method, Listen, Prop, State, h } from "@stencil/core"
+import { Component, Event, EventEmitter, Method, Listen, Prop, State, h } from "@stencil/core"
 import { Payload, Verifier } from "authly"
 import { Trigger } from "smoothly-model"
-import { Currency } from "isoly"
-import { Payment } from "@cardfunc/model"
+import { Authorization } from "@cardfunc/model"
+import { AuthorizationCreatableSafe } from "../model"
 
 @Component({
 	tag: "cardfunc-element",
@@ -12,14 +12,14 @@ import { Payment } from "@cardfunc/model"
 })
 export class Form {
 	frame: HTMLSmoothlyFrameElement
-	@Prop() token: string
+	@Prop() apiKey: string
 	@Prop({ reflectToAttr: true, mutable: true }) state: "failed" | "succeeded" | "processing" | "created" = "created"
-	@Prop({ mutable: true }) value?: Payment
-	@Event() changed: EventEmitter<Payment>
-	private received?: (state: "succeeded" | "failed", payment: Payment) => void
+	@Prop({ mutable: true }) value?: AuthorizationCreatableSafe
+	@Event() changed: EventEmitter<Authorization>
+	private received?: (state: "succeeded" | "failed", authorization: Authorization) => void
 	@State() payload?: Payload
 	componentWillLoad() {
-		new Verifier("public").verify(this.token).then(payload => this.payload = payload)
+		new Verifier("public").verify(this.apiKey).then(payload => this.payload = payload)
 	}
 	@Listen("trigger")
 	async handleTrigger(event: CustomEvent<Trigger>) {
@@ -32,12 +32,12 @@ export class Form {
 		}
 	}
 	@Method()
-	submit(method: "card" | "one-click" |	"init-recurring" | "recurring", amount: number, currency: Currency, order?: string, reference?: string, description?: string): Promise<Payment> {
+	submit(authorization: AuthorizationCreatableSafe): Promise<Authorization> {
 		return new Promise(callback => {
 			console.log("frame submit")
 			if (this.frame) {
-				this.received = (_, payment) => callback(payment)
-				this.frame.send("card", { name: "submit", value: { method, amount, currency, order, reference, description, token: this.token, parent: window.location.origin } })
+				this.received = (_, response) => callback(response)
+				this.frame.send("card", { name: "submit", value: { authorization, key: this.apiKey, parent: window.location.origin } })
 				this.state = "processing"
 			}
 		})
@@ -45,11 +45,12 @@ export class Form {
 	render() {
 		return [
 			this.payload ? <smoothly-frame url={ this.payload.iss + "/web-app/" } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : [],
-			this.payload && this.value && this.value.verify ?
-			<smoothly-dialog closable>
-				<smoothly-frame url={ `${ this.payload.iss }/api/redirect/post?target=${ this.value.verify.location }&PaReq=${ this.value.verify.pareq }` } name="parent"></smoothly-frame>
-			</smoothly-dialog> :
-			[],
+			// TODO: Renable 3D Secure
+			// this.payload && this.value && this.value.verify ?
+			// <smoothly-dialog closable>
+			// 	<smoothly-frame url={ `${ this.payload.iss }/api/redirect/post?target=${ this.value.verify.location }&PaReq=${ this.value.verify.pareq }` } name="parent"></smoothly-frame>
+			// </smoothly-dialog> :
+			// [],
 		]
 	}
 }
