@@ -23,13 +23,13 @@
   },
   "dependencies": {
     "@cardfunc/model": "^0.0.19",
-    "authly": "^0.0.25",
+    "authly": "^0.0.26",
     "isoly": "^0.0.10",
     "smoothly": "^0.0.52",
     "smoothly-model": "^0.0.8"
   },
   "devDependencies": {
-    "@stencil/core": "^1.2.3",
+    "@stencil/core": "^1.2.4",
     "@types/jest": "24.0.17",
     "@types/puppeteer": "1.19.0",
     "jest": "24.8.0",
