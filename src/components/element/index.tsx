@@ -48,7 +48,7 @@ export class Form {
 			// TODO: Reenable 3D Secure
 			// this.payload && this.value && this.value.verify ?
 			// <smoothly-dialog closable>
-			// 	<smoothly-frame url={ `${ this.payload.iss }/api/redirect/post?target=${ this.value.verify.location }&PaReq=${ this.value.verify.pareq }` } name="parent"></smoothly-frame>
+			// 	<smoothly-frame url={ `${ this.payload.iss }/redirect/post?target=${ this.value.verify.location }&PaReq=${ this.value.verify.pareq }` } name="parent"></smoothly-frame>
 			// </smoothly-dialog> :
 			// [],
 		]
