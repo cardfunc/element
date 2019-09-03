@@ -44,7 +44,7 @@ export class Form {
 	}
 	render() {
 		return [
-			this.payload ? <smoothly-frame url={ this.payload.iss + "/web-app/" } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : [],
+			this.payload ? <smoothly-frame url={ this.payload.iss + "/ui/web-app/" } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : [],
 			// TODO: Reenable 3D Secure
 			// this.payload && this.value && this.value.verify ?
 			// <smoothly-dialog closable>
