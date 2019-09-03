@@ -10,7 +10,7 @@ export const config: Config = {
 		{
 			type: "www",
 			serviceWorker: null, // disable service workers
-			baseUrl: "/element",
+			baseUrl: "/ui/element",
 		},
 	],
 	globalStyle: "src/style.css",
