@@ -15,11 +15,19 @@ export class Form {
 	@Prop() apiKey: string
 	@Prop({ reflectToAttr: true, mutable: true }) state: "failed" | "succeeded" | "processing" | "created" = "created"
 	@Prop({ mutable: true }) value?: AuthorizationCreatableSafe
+	private themeName?: string
 	@Event() changed: EventEmitter<Authorization>
 	private received?: (state: "succeeded" | "failed", authorization: Authorization | Token) => void
 	@State() payload?: Payload
 	componentWillLoad() {
 		new Verifier("public").verify(this.apiKey).then(payload => this.payload = payload)
+		const styleLinks = document.querySelectorAll("link[rel=stylesheet]") as NodeListOf<HTMLLinkElement>
+		styleLinks.forEach(element => {
+			if (element.href.startsWith("https://theme.payfunc.com/")) {
+				const themeLink = element.href.substring(26)
+				this.themeName = themeLink.substring(0, themeLink.indexOf("/"))
+			}
+		})
 	}
 	@Listen("trigger")
 	async handleTrigger(event: CustomEvent<Trigger>) {
@@ -44,7 +52,7 @@ export class Form {
 	}
 	render() {
 		return [
-			this.payload ? <smoothly-frame url={ this.payload.iss + "/ui/web-app/" } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : [],
+			this.payload ? <smoothly-frame url={ this.payload.iss + "/ui/web-app/" + "?theme=" + this.themeName } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : [],
 			// TODO: Reenable 3D Secure
 			// this.payload && this.value && this.value.verify ?
 			// <smoothly-dialog closable>

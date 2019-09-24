@@ -14,7 +14,6 @@ export const config: Config = {
 			baseUrl: "/ui/element",
 		},
 	],
-	globalStyle: "src/style.css",
 	devServer: {
 		openBrowser: false,
 	},
