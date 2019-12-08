@@ -22,7 +22,6 @@ export class Form {
 	componentWillLoad() {
 		new Verifier("public").verify(this.apiKey).then(payload => this.payload = payload)
 		const styleLink = document.querySelector("link[rel=stylesheet][href^='https://theme.payfunc.com/']") as HTMLLinkElement
-		console.log("stylelink is", styleLink)
 		if (styleLink) {
 			const themeLink = styleLink.href.substring(26)
 			this.theme = themeLink.substring(0, themeLink.indexOf("/"))
@@ -30,7 +29,6 @@ export class Form {
 	}
 	@Listen("trigger")
 	async handleTrigger(event: CustomEvent<Trigger>) {
-		console.log("cardfunc-element", event)
 		this.changed.emit(this.value = event.detail.value)
 		this.state = event.detail.name == "cardPaymentSuccess" ? "succeeded" : "failed"
 		if (this.received) {
@@ -41,7 +39,6 @@ export class Form {
 	@Method()
 	submit(authorization: AuthorizationCreatableSafe): Promise<Authorization | Token> {
 		return new Promise(callback => {
-			console.log("frame submit")
 			if (this.frame) {
 				this.received = (_, response) => callback(response)
 				this.frame.send("card", { name: "submit", value: { authorization, key: this.apiKey, parent: window.location.origin } })
