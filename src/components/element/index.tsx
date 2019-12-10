@@ -20,7 +20,7 @@ export class Form {
 	private received?: (state: "succeeded" | "failed", authorization: Authorization | Token) => void
 	@State() payload?: Payload
 	componentWillLoad() {
-		new Verifier("public").verify(this.apiKey).then(payload => this.payload = payload)
+		Verifier.create("public").verify(this.apiKey).then(payload => this.payload = payload)
 		const styleLink = document.querySelector("link[rel=stylesheet][href^='https://theme.payfunc.com/']") as HTMLLinkElement
 		if (styleLink) {
 			const themeLink = styleLink.href.substring(26)
