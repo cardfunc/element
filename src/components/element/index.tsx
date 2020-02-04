@@ -16,6 +16,7 @@ export class Form {
 	@Prop({ reflectToAttr: true, mutable: true }) state: "failed" | "succeeded" | "processing" | "created" = "created"
 	@Prop({ mutable: true }) value?: AuthorizationCreatableSafe
 	@State() theme?: string
+	@State() verify?: { pareq: string, url: string, issuer: string, authorization: Authorization.Creatable.Safe, parent: string, key: string }
 	@Event() changed: EventEmitter<Authorization>
 	private received?: (state: "succeeded" | "failed", authorization: Authorization | Token) => void
 	@State() payload?: Payload
@@ -49,12 +50,11 @@ export class Form {
 	render() {
 		return [
 			this.payload ? <smoothly-frame url={ this.payload.iss + "/ui/web-app/" + (this.theme ? "?theme=" + this.theme : "") } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : [],
-			// TODO: Reenable 3D Secure
-			// this.payload && this.value && this.value.verify ?
-			// <smoothly-dialog closable>
-			// 	<smoothly-frame url={ `${ this.payload.iss }/redirect/post?target=${ this.value.verify.location }&PaReq=${ this.value.verify.pareq }` } name="parent"></smoothly-frame>
-			// </smoothly-dialog> :
-			// [],
+			this.verify ?
+			<smoothly-dialog closable>
+				<smoothly-frame url={ `${ this.verify.issuer }/redirect/post?target=${ this.verify.url }&PaReq=${ this.verify.pareq }` } name="parent"></smoothly-frame>
+			</smoothly-dialog> :
+			[],
 		]
 	}
 }
