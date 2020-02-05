@@ -62,9 +62,13 @@ export class Form {
 			this.payload ? <smoothly-frame url={ this.payload.iss + "/ui/web-app/" + (this.theme ? "?theme=" + this.theme : "") } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : [],
 			this.verify ?
 			<smoothly-dialog closable>
-				<smoothly-frame url={ `${ this.verify.issuer }/redirect/post?target=${ this.verify.url }&PaReq=${ this.verify.pareq }&TermUrl=${ this.verify.issuer }/message?parent=${ window.origin }&MD=MD` } name="parent" style={{ height: "90vh" }}></smoothly-frame>
+				<smoothly-frame url={ `${ this.verify.issuer }/redirect/post?target=${ this.verify.url }&PaReq=${ this.verify.pareq }&MD=MD&TermUrl=${ this.verify.issuer }/message?parent=${ getOrigin(this.frame.url) }` } name="parent" style={{ height: "90vh" }}></smoothly-frame>
 			</smoothly-dialog> :
 			[],
 		]
 	}
+}
+function getOrigin(url: string): string {
+		const match = url.match(/^(([a-z]+\+)*[a-z]+:\/\/)?[^\/^\n]+/)
+		return match ? match[0] : "*"
 }
