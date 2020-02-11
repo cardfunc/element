@@ -36,7 +36,7 @@ export class Form {
 		} else if (event.detail.name == "pares") {
 			this.verify = undefined
 			if (this.authorization)
-				this.frame.send("card", { name: "submit", value: { authorization: { ...this.authorization, pares: event.detail.value }, key: this.apiKey, parent: window.location.origin } })
+				this.frame.send("card", { name: "submit", value: { authorization: this.authorization, key: this.apiKey, parent: window.location.origin } })
 		} else {
 			this.changed.emit(this.value = event.detail.value)
 			this.state = event.detail.name == "cardPaymentSuccess" ? "succeeded" : "failed"
@@ -62,13 +62,9 @@ export class Form {
 			this.payload ? <smoothly-frame url={ this.payload.iss + "/ui/web-app/" + (this.theme ? "?theme=" + this.theme : "") } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : [],
 			this.verify ?
 			<smoothly-dialog closable>
-				<smoothly-frame url={ `${ this.verify.issuer }/redirect/post?target=${ this.verify.url }&PaReq=${ this.verify.pareq }&MD=MD&TermUrl=${ this.verify.issuer }/message?parent=${ getOrigin(this.frame.url) }` } name="parent" style={{ height: "90vh" }}></smoothly-frame>
+				<smoothly-frame url={ `${ this.verify.issuer }/redirect/post?target=${ this.verify.url }&PaReq=${ this.verify.pareq }&MD=MD&TermUrl=${ this.verify.issuer }/emv3d/done?parent=${ window.location.origin }` } name="parent" style={{ height: "90vh" }}></smoothly-frame>
 			</smoothly-dialog> :
 			[],
 		]
 	}
-}
-function getOrigin(url: string): string {
-		const match = url.match(/^(([a-z]+\+)*[a-z]+:\/\/)?[^\/^\n]+/)
-		return match ? match[0] : "*"
 }
