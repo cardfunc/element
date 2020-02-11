@@ -25,8 +25,8 @@
     "@cardfunc/model": "^0.0.42",
     "authly": "^0.0.34",
     "isoly": "^0.0.11",
-    "smoothly": "^0.0.86",
-    "smoothly-model": "^0.0.9"
+    "smoothly": "^0.0.88",
+    "smoothly-model": "^0.0.10"
   },
   "devDependencies": {
     "@stencil/core": "^1.8.7",

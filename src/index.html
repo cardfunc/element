@@ -21,7 +21,6 @@
 			const submit = document.getElementById("submit")
 			if (cardForm && submit)
 				submit.onclick = event => {
-					console.log("submit")
 					cardForm.submit({ amount: 1337.42, currency: "SEK",  number: "orderno", discriptor: "reference" }).then(payment => alert("payed " + JSON.stringify(payment)))
 					event.preventDefault()
 					event.stopPropagation()
