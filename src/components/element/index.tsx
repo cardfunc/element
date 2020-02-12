@@ -31,7 +31,7 @@ export class Form {
 	}
 	@Listen("trigger")
 	async handleTrigger(event: CustomEvent<Trigger>) {
-		if (event.detail.value.status == 400 && event.detail.value.type == "missing property" && event.detail.value.content && event.detail.value.content.property == "pares") {
+		if (event.detail.value && event.detail.value.status == 400 && event.detail.value.type == "missing property" && event.detail.value.content && event.detail.value.content.property == "pares") {
 			this.verify = { pareq: event.detail.value.content.pareq, url: event.detail.value.content.url, issuer: this.payload ? this.payload.iss ? this.payload.iss : "" : "" }
 		} else if (event.detail.name == "pares") {
 			this.verify = undefined
