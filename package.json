@@ -22,7 +22,7 @@
     "clean": "rm -rf .stencil/ dist/ node_modules/ loader/ www/"
   },
   "dependencies": {
-    "@cardfunc/model": "^0.0.43",
+    "@cardfunc/model": "^0.0.44",
     "authly": "^0.0.34",
     "isoly": "^0.0.11",
     "smoothly": "^0.0.88",
