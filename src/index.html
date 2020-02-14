@@ -13,7 +13,7 @@
 	<body>
 
 		<form>
-			<cardfunc-element id="cardfunc-element" api-key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODIiLCJpYXQiOjE1ODE0OTU3MTAzMzMsImF1ZCI6InB1YmxpYyIsInN1YiI6InRlc3QiLCJhZ2VudCI6IlBheUZ1bmMiLCJ0eXBlIjoidGVzdCIsImlkIjoidGVzdCIsIm5hbWUiOiJUZXN0IEFCIiwidXJsIjoiaHR0cDovL2V4YW1wbGUuY29tIiwiZGVzY3JpcHRvciI6InRlc3QgdHJhbnNhY3Rpb24iLCJjb3VudHJ5IjoiU0UiLCJhY3F1aXJlciI6Ik5ENU5qX1JVeGZ2UzFwZ21iLXVRdUx0V2Zock1QaFhaRFZjbkJPSjczZGl1bzVlS0ZaZlZZQUpVcWx2ZERXa3ZVRjhadU52Ul9pcFFJUXdRc0RUX2ttMGlMQ0pyWlhraU9pSXpObVUzTkdFMk9TMDNabVZsTFRSaE16Y3RZbU5rT1MwMllURTBNakl3TWpobVpqTWlmUSIsIm1pZCI6IjEyMzQiLCJtY2MiOiIxMjM0IiwiYmluIjp7InZpc2EiOiIxMjM0NTYiLCJtYXN0ZXJjYXJkIjoiMTIzNCJ9LCJlbXYzZCI6IjFQVG1yeGMyQVZYbzVjamY0aXl6VGdTQzQwQkowcS13d2NQaFFFNmhBNS1RalIwcG9lOTc1aUZQZmRKdE51bkY3LUFZTThab21NaDJvLXFxTnNWRHB6b2libTh0YTJWNUluMCJ9.6WAbdt4FyU9FSCDMvsq95Yjg8lBOvhPjtccka_hThlQ"></cardfunc-element>
+			<cardfunc-element id="cardfunc-element" api-key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjcwODIiLCJpYXQiOjE1ODE2ODA1NTkxMDYsImF1ZCI6InB1YmxpYyIsInN1YiI6ImRlbW8iLCJhZ2VudCI6InRlc3QiLCJ0eXBlIjoidGVzdCIsImlkIjoiZGVtbyIsIm5hbWUiOiJEZW1vIEFCIiwidXJsIjoiaHR0cDovL2V4YW1wbGUuY29tIiwiZGVzY3JpcHRvciI6ImRlbW8gdHJhbnNhY3Rpb24iLCJjb3VudHJ5IjoiU0UiLCJhY3F1aXJlciI6InB1eHZUZTdwUVlEc1hJbF9NajFHVV81ZGIxb1gwSmJmQ3RYX3RLelIxYTlBUkViTUlvSXhFckRySWZQZHJYd3VoSWRRRFVaVTV0NmpxdGRJUWJQV28yMGlMQ0pyWlhraU9pSXpObVUzTkdFMk9TMDNabVZsTFRSaE16Y3RZbU5rT1MwMllURTBNakl3TWpobVpqTWlMQ0ppYVc0aU9uc2lkbWx6WVNJNklqUXpPRE13T1NJc0ltMWhjM1JsY21OaGNtUWlPaUkxTWpZMU56RWlmWDAiLCJtaWQiOiIxMjM0IiwibWNjIjoiMTIzNCIsImVtdjNkIjoiSG9rcU5wLWdxV05qMGlKUURNaGRFdG5QeTRnaU1kSzhQb0pGTlp5bDZ6azZQLW5kZzNLU3BBVm5Pelc0N1hUMUNjNFYzSjNSN1FWOVFwOXhNUVltV1RvaWJtOHRhMlY1SW4wIn0.F0AvarCg00Zv1yO4e2TBxtWg9WYNMMtVzSdQ3KGSblg"></cardfunc-element>
 			<button id="submit" type="button">submit</button>
 		</form>
 		<script>
@@ -21,7 +21,8 @@
 			const submit = document.getElementById("submit")
 			if (cardForm && submit)
 				submit.onclick = event => {
-					cardForm.submit({ amount: 1337.42, currency: "SEK",  number: "orderno", discriptor: "reference" }).then(payment => alert("payed " + JSON.stringify(payment)))
+					console.log("submit")
+					cardForm.submit({ amount: 1337.42, currency: "SEK",  number: "orderno", discriptor: "PayFunc Works" }).then(payment => alert("payed " + JSON.stringify(payment)))
 					event.preventDefault()
 					event.stopPropagation()
 				}
