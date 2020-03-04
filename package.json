@@ -22,11 +22,11 @@
     "clean": "rm -rf .stencil/ dist/ node_modules/ loader/ www/"
   },
   "dependencies": {
-    "@cardfunc/model": "^0.0.47",
-    "authly": "^0.0.34",
-    "isoly": "^0.0.11",
-    "smoothly": "^0.0.90",
-    "smoothly-model": "^0.0.10"
+    "@cardfunc/model": "^0.0.48",
+    "authly": "^0.0.35",
+    "isoly": "^0.0.12",
+    "smoothly": "^0.0.100",
+    "smoothly-model": "^0.0.11"
   },
   "devDependencies": {
     "@stencil/core": "^1.8.8",
