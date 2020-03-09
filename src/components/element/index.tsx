@@ -62,7 +62,9 @@ export class Form {
 			this.payload ? <smoothly-frame url={ this.payload.iss + "/ui/web-app/" + (this.theme ? "?theme=" + this.theme : "") } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : [],
 			this.verify ?
 			<smoothly-dialog closable>
-				<smoothly-frame url={ `${ this.verify.issuer }/redirect/post?target=${ this.verify.url }&PaReq=${ this.verify.pareq }&MD=MD&TermUrl=${ encodeURIComponent(`${ this.verify.issuer }/emv3d/done?parent=${ window.location.origin }`) }` } name="parent" style={{ height: "90vh" }}></smoothly-frame>
+				<smoothly-frame
+					url={ `${ this.verify.issuer }/redirect/post?target=${ encodeURIComponent(this.verify.url) }&PaReq=${ encodeURIComponent(this.verify.pareq) }&MD=MD&TermUrl=${ encodeURIComponent(`${ this.verify.issuer }/emv3d/done?parent=${ window.location.origin }`) }` } name="parent" style={{ height: "90vh" }}
+				></smoothly-frame>
 			</smoothly-dialog> :
 			[],
 		]
