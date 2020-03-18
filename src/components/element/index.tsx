@@ -1,6 +1,7 @@
 // tslint:disable-next-line:no-implicit-dependencies
 import { Component, Event, EventEmitter, Method, Listen, Prop, State, h } from "@stencil/core"
 import { Payload, Verifier, Token } from "authly"
+import { Error } from "gracely"
 import { Trigger } from "smoothly-model"
 import { Authorization } from "@cardfunc/model"
 import { AuthorizationCreatableSafe } from "../model"
@@ -19,7 +20,7 @@ export class Form {
 	@State() verify?: { pareq: string, url: string, issuer: string }
 	@State() authorization?: AuthorizationCreatableSafe
 	@Event() changed: EventEmitter<Authorization>
-	private received?: (state: "succeeded" | "failed", authorization: Authorization | Token) => void
+	private received?: (state: "succeeded" | "failed", authorization: Authorization | Error | Token) => void
 	@State() payload?: Payload
 	componentWillLoad() {
 		Verifier.create("public").verify(this.apiKey).then(payload => this.payload = payload)
@@ -47,7 +48,7 @@ export class Form {
 		}
 	}
 	@Method()
-	submit(authorization: AuthorizationCreatableSafe): Promise<Authorization | Token> {
+	submit(authorization: AuthorizationCreatableSafe): Promise<Authorization | Error | Token> {
 		this.authorization = authorization
 		return new Promise(callback => {
 			if (this.frame) {
