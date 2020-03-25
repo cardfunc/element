@@ -34,11 +34,17 @@ export class Form {
 	async handleTrigger(event: CustomEvent<Trigger>) {
 		if (event.detail.value && event.detail.value.status == 400 && event.detail.value.type == "missing property" && event.detail.value.content && event.detail.value.content.property == "pares") {
 			this.verify = { pareq: event.detail.value.content.pareq, url: event.detail.value.content.url, issuer: this.payload ? this.payload.iss ? this.payload.iss : "" : "" }
-		} else if (event.detail.name == "pares") {
+		}
+		else if (event.detail.name == "pares") {
 			this.verify = undefined
 			if (this.authorization)
 				this.frame.send("card", { name: "submit", value: { authorization: this.authorization, key: this.apiKey, parent: window.location.origin } })
-		} else {
+		}
+		else if (event.detail.name == "close") {
+			this.verify = undefined
+			this.state = "failed"
+		}
+		else {
 			this.changed.emit(this.value = event.detail.value)
 			this.state = event.detail.name == "cardPaymentSuccess" ? "succeeded" : "failed"
 			if (this.received) {
