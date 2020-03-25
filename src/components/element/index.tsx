@@ -40,11 +40,8 @@ export class Form {
 			if (this.authorization)
 				this.frame.send("card", { name: "submit", value: { authorization: this.authorization, key: this.apiKey, parent: window.location.origin } })
 		}
-		else if (event.detail.name == "close") {
-			this.verify = undefined
-			this.state = "failed"
-		}
 		else {
+			this.verify = undefined
 			this.changed.emit(this.value = event.detail.value)
 			this.state = event.detail.name == "cardPaymentSuccess" ? "succeeded" : "failed"
 			if (this.received) {
