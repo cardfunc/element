@@ -26,8 +26,8 @@
     "authly": "^0.0.35",
     "gracely": "^0.0.25",
     "isoly": "^0.0.12",
-    "smoothly": "^0.0.100",
-    "smoothly-model": "^0.0.11"
+    "smoothly": "^0.0.114",
+    "smoothly-model": "^0.0.12"
   },
   "devDependencies": {
     "@stencil/core": "^1.8.8",
