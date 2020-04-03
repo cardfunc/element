@@ -7,3 +7,6 @@
 :host[hidden] {
 	display: none;
 }
+:host > smoothly-dialog > header > smoothly-trigger {
+	z-index: 1;
+}
