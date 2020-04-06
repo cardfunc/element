@@ -1,6 +1,6 @@
 {
   "name": "@cardfunc/element",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "description": "HTML custom element providing PCI-compliant card details form.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
