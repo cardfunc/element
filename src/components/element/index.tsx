@@ -3,7 +3,6 @@ import { Component, Event, EventEmitter, Method, Listen, Prop, State, h } from "
 import { Payload, Verifier, Token } from "authly"
 import { Error } from "gracely"
 import { Trigger } from "smoothly-model"
-import { Authorization } from "@cardfunc/model"
 import { AuthorizationCreatableSafe } from "../model"
 
 @Component({
@@ -15,12 +14,16 @@ export class Form {
 	frame: HTMLSmoothlyFrameElement
 	@Prop() apiKey: string
 	@Prop({ reflectToAttr: true, mutable: true }) state: "failed" | "succeeded" | "processing" | "created" = "created"
+	@Prop({ reflectToAttr: true, mutable: true }) state3d: "failed" | "succeeded" | "processing" | "created" = "created"
 	@Prop({ mutable: true }) value?: AuthorizationCreatableSafe
+	@Prop({ mutable: true }) value3d?: AuthorizationCreatableSafe
 	@State() theme?: string
 	@State() verify?: { pareq: string, url: string, issuer: string }
 	@State() authorization?: AuthorizationCreatableSafe
-	@Event() changed: EventEmitter<Authorization>
-	private received?: (state: "succeeded" | "failed", authorization: Authorization | Error | Token) => void
+	@Event() changed: EventEmitter<AuthorizationCreatableSafe>
+	@Event() changed3d: EventEmitter<AuthorizationCreatableSafe>
+	private received?: (state: "succeeded" | "failed", authorization: AuthorizationCreatableSafe | Error | Token) => void
+	private received3d?: (state3d: "succeeded" | "failed", authorization: AuthorizationCreatableSafe | Error | Token) => void
 	@State() payload?: Payload
 	componentWillLoad() {
 		Verifier.create("public").verify(this.apiKey).then(payload => this.payload = payload)
@@ -32,13 +35,12 @@ export class Form {
 	}
 	@Listen("trigger")
 	async handleTrigger(event: CustomEvent<Trigger>) {
-		if (event.detail.value && event.detail.value.status == 400 && event.detail.value.type == "missing property" && event.detail.value.content && event.detail.value.content.property == "pares") {
+		if (event.detail.value && event.detail.value.status == 400 && event.detail.value.type == "missing property" && event.detail.value.content && event.detail.value.content.property == "pares")
 			this.verify = { pareq: event.detail.value.content.pareq, url: event.detail.value.content.url, issuer: this.payload ? this.payload.iss ? this.payload.iss : "" : "" }
-		}
-		else if (event.detail.name == "pares") {
+		else if (event.detail.name == "pares" || event.detail.name == "card") {
 			this.verify = undefined
 			if (this.authorization)
-				this.frame.send("card", { name: "submit", value: { authorization: this.authorization, key: this.apiKey, parent: window.location.origin } })
+				this.frame.send("card", { name: "do3d", value: { authorization: this.authorization, key: this.apiKey, parent: window.location.origin } })
 		}
 		else {
 			this.verify = undefined
@@ -48,16 +50,36 @@ export class Form {
 				this.received(this.state, event.detail.value)
 				this.received = undefined
 			}
+			this.changed3d.emit(this.value3d = event.detail.value)
+			this.state3d = event.detail.name == "cardAuthorizationSuccess" ? "succeeded" : "failed"
+			if (this.received3d) {
+				this.received3d(this.state3d, event.detail.value)
+				this.received3d = undefined
+			}
 		}
 	}
 	@Method()
-	submit(authorization: AuthorizationCreatableSafe): Promise<Authorization | Error | Token> {
+	submit(authorization: AuthorizationCreatableSafe): Promise<AuthorizationCreatableSafe | Error | Token> {
 		this.authorization = authorization
 		return new Promise(callback => {
 			if (this.frame) {
 				this.received = (_, response) => callback(response)
-				this.frame.send("card", { name: "submit", value: { authorization, key: this.apiKey, parent: window.location.origin } })
+				this.frame.send("card", { name: "submitVersion1", value: { authorization, key: this.apiKey, parent: window.location.origin } })
 				this.state = "processing"
+			}
+		})
+	}
+	@Method()
+	do3d(authorization: AuthorizationCreatableSafe, error?: Error): Promise<AuthorizationCreatableSafe | Error | Token> {
+		this.authorization = authorization
+		return new Promise(callback => {
+			if (this.frame) {
+				this.received3d = (_, response) => callback(response)
+				let value: any = { authorization, key: this.apiKey, parent: window.location.origin }
+				if (error)
+					value = { ...value, error }
+				this.frame.send("card", { name: "do3d", value })
+				this.state3d = "processing"
 			}
 		})
 	}
@@ -67,7 +89,9 @@ export class Form {
 			this.verify ?
 			<smoothly-dialog closable>
 				<smoothly-frame
-					url={ `${ this.verify.issuer }/redirect/post?target=${ encodeURIComponent(this.verify.url) }&PaReq=${ encodeURIComponent(this.verify.pareq) }&MD=MD&TermUrl=${ encodeURIComponent(`${ this.verify.issuer }/emv3d/done?parent=${ window.location.origin }`) }` } name="parent" style={{ height: "90vh" }}
+					url={ `${ this.verify.issuer }/redirect/post?target=${ encodeURIComponent(this.verify.url) }&PaReq=${ encodeURIComponent(this.verify.pareq) }&MD=MD&TermUrl=${ encodeURIComponent(`${ this.verify.issuer }/emv3d1/done?merchant=${ this.payload?.sub ?? "error" }&token=${ this.authorization?.card ?? "error" }&parent=${ window.location.origin }`) }` }
+					name="parent"
+					style={{ height: "90vh" }}
 				></smoothly-frame>
 			</smoothly-dialog> :
 			[],
