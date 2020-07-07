@@ -26,17 +26,34 @@ export class Form {
 	private received3d?: (state3d: "succeeded" | "failed", authorization: AuthorizationCreatableSafe | Error | Token) => void
 	@State() payload?: Payload
 	componentWillLoad() {
-		Verifier.create("public").verify(this.apiKey).then(payload => this.payload = payload)
+		Verifier.create("public").verify(this.apiKey).then(async payload => {
+			const cardfuncKey = (payload as any)?.option?.card // Old payfunc key
+			this.payload = typeof cardfuncKey == "string" ? (await Verifier.create("public").verify(cardfuncKey)) ?? payload : payload
+		})
 		const styleLink = document.querySelector("link[rel=stylesheet][href^='https://theme.payfunc.com/']") as HTMLLinkElement
 		if (styleLink) {
 			const themeLink = styleLink.href.substring(26)
 			this.theme = themeLink.substring(0, themeLink.indexOf("/"))
 		}
 	}
+	private getMerchantId(): string | undefined {
+		return this.payload
+			? typeof this.payload.card == "object" && (this.payload.card as any)?.id && typeof (this.payload.card as any)?.id == "string"
+			? (this.payload.card as any)?.id
+			: this.payload.sub ?? undefined
+			: undefined
+	}
+	private getCardfuncIssuer(): string {
+		return this.payload
+			? typeof this.payload.card == "object" && (this.payload.card as any)?.url && typeof (this.payload.card as any)?.url == "string"
+			? (this.payload.card as any)?.url
+			: this.payload.iss ?? ""
+			: ""
+	}
 	@Listen("trigger")
 	async handleTrigger(event: CustomEvent<Trigger>) {
 		if (event.detail.value && event.detail.value.status == 400 && event.detail.value.type == "missing property" && event.detail.value.content && event.detail.value.content.property == "pares")
-			this.verify = { pareq: event.detail.value.content.pareq, url: event.detail.value.content.url, issuer: this.payload ? this.payload.iss ? this.payload.iss : "" : "" }
+			this.verify = { pareq: event.detail.value.content.pareq, url: event.detail.value.content.url, issuer: this.getCardfuncIssuer() }
 		else if (event.detail.name == "pares" || event.detail.name == "card") {
 			this.verify = undefined
 			if (this.authorization)
@@ -85,11 +102,11 @@ export class Form {
 	}
 	render() {
 		return [
-			this.payload ? <smoothly-frame url={ this.payload.iss + "/ui/web-app/" + (this.theme ? "?theme=" + this.theme : "") } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : [],
+			this.payload ? <smoothly-frame url={ this.getCardfuncIssuer() + "/ui/web-app/" + (this.theme ? "?theme=" + this.theme : "") } name="card" ref={ (element: HTMLSmoothlyFrameElement) => this.frame = element }></smoothly-frame> : [],
 			this.verify ?
 			<smoothly-dialog closable>
 				<smoothly-frame
-					url={ `${ this.verify.issuer }/redirect/post?target=${ encodeURIComponent(this.verify.url) }&PaReq=${ encodeURIComponent(this.verify.pareq) }&MD=MD&TermUrl=${ encodeURIComponent(`${ this.verify.issuer }/emv3d1/done?merchant=${ this.payload?.sub ?? "error" }&token=${ this.authorization?.card ?? "error" }&parent=${ window.location.origin }`) }` }
+					url={ `${ this.verify.issuer }/redirect/post?target=${ encodeURIComponent(this.verify.url) }&PaReq=${ encodeURIComponent(this.verify.pareq) }&MD=MD&TermUrl=${ encodeURIComponent(`${ this.verify.issuer }/emv3d1/done?merchant=${ this.getMerchantId() ?? "error" }&token=${ this.authorization?.card ?? "error" }&parent=${ window.location.origin }`) }` }
 					name="parent"
 					style={{ height: "90vh" }}
 				></smoothly-frame>
