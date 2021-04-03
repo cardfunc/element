@@ -1,0 +1,1 @@
+import{r,h as s}from"./p-7fe28151.js";class t{constructor(s){r(this,s)}render(){return[s("b",null,this.tuple[0]),": ",this.tuple[1],s("br",null)]}}export{t as smoothly_tuple}

@@ -1,0 +1,1 @@
+System.register(["./p-0bb6f924.system.js"],(function(t){"use strict";var e,n;return{setters:[function(t){e=t.r;n=t.h}],execute:function(){var r=function(){function t(t){e(this,t)}t.prototype.render=function(){return[n("b",null,this.tuple[0]),": ",this.tuple[1],n("br",null)]};return t}();t("smoothly_tuple",r)}}}));

@@ -1,0 +1,1 @@
+import{r as t,h as s}from"./p-7fe28151.js";class i{constructor(s){t(this,s),this.notice={type:"warning",message:"This is a warning notice."}}render(){return[s("smoothly-notifier",{notice:this.notice})]}}i.style=".sc-smoothly-notifier-test-h{display:block}[hidden].sc-smoothly-notifier-test-h{display:none}";export{i as smoothly_notifier_test}

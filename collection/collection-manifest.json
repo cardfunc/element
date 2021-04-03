@@ -1,0 +1,45 @@
+{
+  "entries": [
+    "./components/element/index.js"
+  ],
+  "compiler": {
+    "name": "@stencil/core",
+    "version": "1.14.0",
+    "typescriptVersion": "3.9.3"
+  },
+  "collections": [
+    {
+      "name": "smoothly",
+      "tags": [
+        "smoothly-accordion",
+        "smoothly-accordion-item",
+        "smoothly-address",
+        "smoothly-address-display",
+        "smoothly-address-edit",
+        "smoothly-addresses",
+        "smoothly-banner",
+        "smoothly-checkbox",
+        "smoothly-dialog",
+        "smoothly-display-amount",
+        "smoothly-display-date-time",
+        "smoothly-frame",
+        "smoothly-icon",
+        "smoothly-input",
+        "smoothly-notifier",
+        "smoothly-notifier-test",
+        "smoothly-radio",
+        "smoothly-radio-group",
+        "smoothly-select",
+        "smoothly-select-test",
+        "smoothly-spinner",
+        "smoothly-submit",
+        "smoothly-trigger",
+        "smoothly-trigger-sink",
+        "smoothly-trigger-source",
+        "smoothly-tuple",
+        "smoothly-urlencoded"
+      ]
+    }
+  ],
+  "bundles": []
+}

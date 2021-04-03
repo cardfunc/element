@@ -1,0 +1,1 @@
+import{r as o,h as t}from"./p-7fe28151.js";class s{constructor(t){o(this,t)}render(){const o=this.data.split("&"),s=[];for(const t of o){const o=t.split("=");s.push([o[0],o[1]])}return[s.map(o=>t("smoothly-tuple",{tuple:o}))]}}export{s as smoothly_urlencoded}

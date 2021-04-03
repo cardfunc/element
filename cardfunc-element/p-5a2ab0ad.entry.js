@@ -1,0 +1,1 @@
+import{r as s}from"./p-7fe28151.js";class t{constructor(t){s(this,t)}render(){const s=this.datetime.split("T");return[s[0]," ",s[1]]}}t.style=".sc-smoothly-display-date-time-h{display:block}[hidden].sc-smoothly-display-date-time-h{display:none}";export{t as smoothly_display_date_time}

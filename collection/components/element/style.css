@@ -1,0 +1,12 @@
+:host {
+	display: block;
+	height: calc(5em - 3px);
+	overflow: hidden;
+	width: 100%;
+}
+:host[hidden] {
+	display: none;
+}
+:host > smoothly-dialog > header > smoothly-trigger {
+	z-index: 1;
+}
